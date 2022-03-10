@@ -14,13 +14,16 @@ function Header(props) {
   );
 }
 
-
-
 function Player(props) {
   return (
     <div className="player">
       <div className="player-name">
-        <button className="remove-player">✖</button>
+        <button
+          onClick={() => props.removePlayer(props.id)}
+          className="remove-player"
+        >
+          ✖
+        </button>
         {props.name}
       </div>
       <Counter score={props.score} />
@@ -49,9 +52,7 @@ class Counter extends React.Component {
   //     });
   //   };
   dicrementScore = () => {
-    this.setState((prevState) => ({
-      score: prevState.score - 1,
-    }));
+    this.setState((prevState) => ({ score: prevState.score - 1 }));
   };
   render() {
     return (
@@ -83,13 +84,25 @@ class App extends React.Component {
       { name: "Sumail", score: 12, id: 4 },
     ],
   };
-  
+
+  removePlayer = (id) => {
+    this.setState((prevState) => {
+      return { player: prevState.player.filter((p) => p.id !== id) };
+    });
+  };
+
   render() {
     return (
       <div className="scoreboard">
         <Header title="scoreboard" totalPlayer={this.state.player.length} />
         {this.state.player.map((player) => (
-          <Player name={player.name} score={player.score} key={player.id} />
+          <Player
+            name={player.name}
+            score={player.score}
+            key={player.id}
+            id={player.id}
+            removePlayer={this.removePlayer}
+          />
         ))}
       </div>
     );
