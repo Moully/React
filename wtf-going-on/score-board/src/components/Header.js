@@ -1,6 +1,5 @@
 import React from "react";
 import Stopwatch from "./stopwatch";
-import propTypes from "prop-types";
 function Header(props) {
   // const totalPlayer = props.player.length;
   // const totalPoints = props.player.reduce((total, player)=>{

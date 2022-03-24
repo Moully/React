@@ -123,14 +123,17 @@ svg {
   visibility: visible;
 }
 
-.player-name,
+.player-name{
+  display: flex;
+  align-items: center;
+}
 .counter-score {
   color: #2f2366;
 }
 
 .player-name {
   flex-grow: 1;
-  line-height: 3.5em;
+  line-height: 1em;
   padding-left: 10px;
 }
 

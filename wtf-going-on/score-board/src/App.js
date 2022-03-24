@@ -3,21 +3,17 @@ import Header from "./components/Header";
 import Player from "./components/Player";
 import "./App.css";
 import Addplayer from "./components/AddPlayer";
+// import { Provider } from "./components/context/index.js";
+// import Playerlist from "./components/Playerlist";
 class App extends React.Component {
   state = {
     player: [
-      { name: "Sufail", score: 12, id: 1 },
-      { name: "Sanjaa", score: 22, id: 2 },
-      { name: "Sanchir", score: 34, id: 3 },
-      { name: "Sumail", score: 12, id: 4 },
+      { name: "Sufail", score: 0, id: 1 },
+      { name: "Sanjaa", score: 0, id: 2 },
+      { name: "Sanchir", score: 0, id: 3 },
+      { name: "Sumail", score: 0, id: 4 },
     ],
   };
-
-  sortplayer = () =>{
-    const obj = this.player
-    obj.sort((a,b)=>(a.score > b.score) ? 1 : -1)
-    console.log(obj);
-  }
 
 
   addPlayer = (e) => {
@@ -41,18 +37,48 @@ class App extends React.Component {
     });
   };
 
-  // giveCrown = () => {
-  //   return "is-high-score";
+
+  // incrementScore = (id) => {
+  //   this.setState((prevState) => {
+  //     const updateScore = [...prevState.player]
+  //     console.log(updateScore);
+      
+  //     return{
+  //      player:[...prevState.player] 
+  //     }});
+  // };
+  // dicrementScore = (score) => {
+  //   this.setState((prevState) => ({ score: prevState.score - 1 }));
   // };
 
-  incrementScore = (score) => {
-    this.setState((prevState) => ({ score: prevState.score + 1 }));
+  changeScore = (delta, index) => {
+
+    this.setState((prevState) => {
+      const updatedPlayers = [...prevState.player];
+      const updatedPlayer = {...updatedPlayers[index]};
+      updatedPlayer.score += delta;
+      updatedPlayers[index] = updatedPlayer;
+      return {
+        player: updatedPlayers,
+      };
+    });
   };
-  dicrementScore = (score) => {
-    this.setState((prevState) => ({ score: prevState.score - 1 }));
+
+  editName = (name, index) => {
+
+    this.setState((prevState) => {
+      const updatedPlayers = [...prevState.player];
+      const updatedPlayer = {...updatedPlayers[index]};
+      updatedPlayer.name = name;
+      updatedPlayers[index] = updatedPlayer;
+      return {
+        player: updatedPlayers,
+      };
+    });
   };
 
   render() {
+    const maxScore = Math.max(...this.state.player.map(e=>e.score))
     return (
       <div className="scoreboard">
         <Header
@@ -60,15 +86,17 @@ class App extends React.Component {
           totalPlayer={this.state.player.length}
           totalScore={this.state.player}
         />
-        {this.state.player.map((player) => (
+        {this.state.player.map((player, index) => (
           <Player
+            maxScore={maxScore}
             name={player.name}
             score={player.score}
             key={player.id}
-            giveCrown={this.giveCrown}
             id={player.id}
+            index={index}
             removePlayer={this.removePlayer}
-            sortplayer={this.sortplayer}
+            changeScore={this.changeScore}
+            editName={this.editName}
           />
         ))}
         <Addplayer function={this.addPlayer} />

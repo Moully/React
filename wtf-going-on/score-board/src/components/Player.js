@@ -8,7 +8,7 @@ function Player(props) {
           ✖
         </button>
         <svg
-              viewBox="0 0 44 35" onClick={() => props.sortplayer()} className={props.class}
+              viewBox="0 0 44 35" className={props.maxScore == props.score && props.maxScore > 0 ? "is-high-score" : ""}
               >
               <path
                   d="M26.7616 10.6207L21.8192 0L16.9973 10.5603C15.3699 14.1207 10.9096 15.2672 7.77534 12.9741L0 7.24138L6.56986 28.8448H37.0685L43.5781 7.72414L35.7425 13.0948C32.6685 15.2672 28.3288 14.0603 26.7616 10.6207Z"
@@ -20,9 +20,23 @@ function Player(props) {
                   transform="translate(6.56987 31.5603)"
               />
         </svg>
-        {props.name}
+        <form onSubmit={(e) => props.editName(e.target, props.index)}>
+      <input
+        autoComplete="off"
+        type="text"
+        placeholder={props.name}
+        id="playerName"
+      />
+      <input type="submit" value={"add new player"} />
+      </form>
+
+        <input value={props.name} type="submit" onDoubleClick={
+          () => props.editName(prompt(), props.index)
+        }
+        />
+        {/* <input type="onsubmit" value={"qweqe"}/> */}
       </div>
-      <Counter score={props.score} sortplayer={props.sortplayer}/>
+      <Counter index={props.index} id={props.id} score={props.score} changeScore={props.changeScore}/>
     </div>
   );
 }
